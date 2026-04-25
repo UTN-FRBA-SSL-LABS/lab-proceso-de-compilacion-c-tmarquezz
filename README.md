@@ -480,13 +480,13 @@ gcc -E programa.c | grep "Iniciando"
 gcc -E -DDEBUG programa.c | grep "Iniciando"
 ```
 
-> **R:**
+> **R:El primero no devuelve nada, el segundo: printf("[DEBUG] %s\n", ("Iniciando main"));**
 
 ¿Agregar `-DDEBUG` hace que aparezca código nuevo en el `.i` que antes no estaba?
 Respondé SI o NO:
 
 <!-- Completá con SI o NO: -->
-DEBUG_ACTIVA_CODIGO=
+DEBUG_ACTIVA_CODIGO=SI
 
 ---
 
@@ -509,7 +509,7 @@ grep -n "stdio.h" programa.i | head -5
 
 ¿Qué información comunican esas líneas `# N "archivo"`? ¿De qué archivo proviene el bloque que contiene la declaración de `printf`?
 
-> **R:**
+> **R:Las lineas comunican los que seria el numero de linea original y el nombre del archivo de donde proviene ese bloque de codigo, en este caso la declaracion de printf proviene de lo que es stdio.h**
 
 ---
 
@@ -665,26 +665,26 @@ Aparecen como instrucciones de llamada (por ejemplo `bl _area_circulo`), pero **
 
 **P7.** Ejecutá `grep "area_circulo" programa.s` y copiá la salida.
 
-> **R:**
+> **R: .ascii "area_circulo(%.1f) = %.4f\12\0" call    _area_circulo .def    _area_circulo;  .scl    2;      .type   32;     .endef**
 
 ¿`area_circulo` aparece como una función *definida* en `programa.s`
 (con su propio bloque de instrucciones) o solo como una *llamada* (instrucción sin cuerpo)?
 Respondé DEFINIDA o LLAMADA:
 
 <!-- Completá con DEFINIDA o LLAMADA: -->
-AREA_EN_S=
+AREA_EN_S=LLAMADA
 
 ---
 
 **P8.** Encontrá en `programa.s` la etiqueta `sumar:` o `_sumar:` y copiá
 las primeras 4 líneas de instrucciones que le siguen.
 
-> **R:**
+> **R: me saltee las que entendi que son las primeras 4 instrucciones: pushl   %ebp || movl %esp, %ebp || movl _llamadas, %eax || addl  $1, %eax**
 
 Explicá en términos generales qué hacen esas instrucciones
 (usá los comentarios del laboratorio como guía):
 
-> **R:**
+> **R: Segun lo que vi en otras materias, entiendo que la primera guarda como un puntero de lo que estaba en ese lugar, el 1er movl crea un lugar de memoria nuevo o copia el valor del otro espacio, el2 do movl copia lo que hay en _llamadas al registro %eax y el addl le suma un valor a ese registro**
 
 ---
 
@@ -697,13 +697,13 @@ grep "llamadas" programa.s
 
 **P9.** Ejecutá `grep "llamadas" programa.s` y copiá la salida.
 
-> **R:**
+> **R:  .globl  _llamadas ||||| _llamadas: ||||| movl    _llamadas, %eax ||||| movl    %eax, _llamadas ||||| movl    _llamadas, %eax**
 
 ¿Aparece la variable `llamadas` en el ensamblador?
 Respondé SI o NO:
 
 <!-- Completá con SI o NO: -->
-LLAMADAS_EN_S=
+LLAMADAS_EN_S=SI
 
 ---
 

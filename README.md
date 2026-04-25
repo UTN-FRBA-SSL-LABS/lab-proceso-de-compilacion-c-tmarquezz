@@ -697,7 +697,7 @@ grep "llamadas" programa.s
 
 **P9.** Ejecutá `grep "llamadas" programa.s` y copiá la salida.
 
-> **R:  .globl  _llamadas ||||| _llamadas: ||||| movl    _llamadas, %eax ||||| movl    %eax, _llamadas ||||| movl    _llamadas, %eax**
+> **R:** .globl  _llamadas ||||| _llamadas: ||||| movl    _llamadas, %eax ||||| movl    %eax, _llamadas ||||| movl    _llamadas, %eax
 
 ¿Aparece la variable `llamadas` en el ensamblador?
 Respondé SI o NO:
@@ -806,14 +806,27 @@ Salida esperada (simplificada):
 ---
 
 **P10.** Ejecutá `nm programa.o` y copiá la salida completa.
+>00000000 d .data
+>00000000 r .eh_frame
+>00000000 r .rdata
+>00000000 r .rdata$zzz
+>00000000 t .text
+>         U ___main
+>         U _area_circulo
+>         U _factorial
+>00000132 T _imprimir_separador
+>00000000 B _llamadas
+>0000001a T _main
+>         U _printf
+>         U _puts
+>00000000 T _sumar
 
-> **R:**
 
 ¿Con qué letra aparece `area_circulo` en esa tabla?
 Escribí solo la letra (una mayúscula):
 
 <!-- Completá con la letra exacta que muestra nm (U, T, D, etc.): -->
-TIPO_AREA_EN_O=
+TIPO_AREA_EN_O=U
 
 ---
 
@@ -833,13 +846,13 @@ nm matematica.o
 **P11.** ¿Por qué `area_circulo` tiene ese tipo en `programa.o`
 pero tipo `T` en `matematica.o`?
 
-> **R:**
+> **R: Porque en programa.o la funcion se invoca, su codigo no esta ahi y se sabe que existe por el archivo de cabecera (.h). En matematica.o esta el cuerpo de la funcion y el ensamblador la marca como T (Text), indicando que el codigo de esa función vive en ese archivo**
 
 ¿Qué etapa del proceso de compilación resuelve esa diferencia?
 Respondé con una palabra: PREPROCESAMIENTO, COMPILACION, ENSAMBLADO o ENLAZADO:
 
 <!-- Completá con una de las cuatro opciones: -->
-ETAPA_QUE_RESUELVE=
+ETAPA_QUE_RESUELVE=ENLAZADO
 
 ---
 
@@ -858,13 +871,13 @@ Un `.o` no es ejecutable por dos razones:
 
 **P12.** Intentá ejecutar `./programa.o` directamente. ¿Qué mensaje aparece?
 
-> **R:**
+> **R: ./programa.o: cannot execute binary file: Exec format error**
 
 ¿Se puede ejecutar un archivo `.o` directamente?
 Respondé SI o NO:
 
 <!-- Completá con SI o NO: -->
-EJECUTABLE_O=
+EJECUTABLE_O=NO
 
 ---
 
@@ -953,13 +966,13 @@ nm programa | grep area_circulo
 **P13.** Enlazá con `gcc programa.o matematica.o -o programa`.
 Ejecutá `nm programa | grep "area_circulo"` y copiá la salida.
 
-> **R:**
+> **R: 004015a8 T _area_circulo**
 
 ¿Con qué letra aparece ahora `area_circulo` en el ejecutable final?
 Escribí solo la letra:
 
 <!-- Completá con la letra exacta que muestra nm: -->
-TIPO_AREA_ENLAZADO=
+TIPO_AREA_ENLAZADO=T
 
 ---
 
@@ -976,16 +989,19 @@ Quedan algunos `U` incluso en el ejecutable final. ¿Por qué? Son funciones de 
 **P14.** Ejecutá `nm programa | grep "^ *U"` y copiá la salida.
 
 > **R:**
+>         U ___deregister_frame_info
+>         U ___register_frame_info
+>         U __Jv_RegisterClasses
 
 ¿Quedan símbolos de tipo `U` en el ejecutable final?
 Respondé SI o NO:
 
 <!-- Completá con SI o NO: -->
-SIMBOLOS_U_FINAL=
+SIMBOLOS_U_FINAL=SI
 
 ¿Por qué quedan? ¿Quién los resuelve y cuándo?
 
-> **R:**
+> **R: Quedan simbolos U porque son funciones que pertenecen a la biblioteca estándar del sistema (libc). El enlazador no las copia adentro del archivo .exe, son resueltos por el cargador dinamico justo en el momento en que el programa se ejecuta (Runtime).**
 
 ---
 
@@ -1000,11 +1016,27 @@ SIMBOLOS_U_FINAL=
 **P15.** Ejecutá `./programa` y copiá la salida completa.
 
 > **R:**
+>=== Laboratorio de Compilacion en C (v1.0) ===
+
+>sumar(3, 4)       = 7
+>CUADRADO(5)      = 25
+>MAX(7, 12)        = 12
+>----------------------------------------
+>varea_circulo(5.0) = 78.5398
+>Factoriales:
+>  0! = 1
+>  1! = 1
+>  2! = 2
+>  3! = 6
+>  4! = 24
+>  5! = 120
+>----------------------------------------
+>Llamadas a sumar(): 1
 
 ¿Qué valor da `factorial(5)`? Escribí solo el número:
 
 <!-- Completá con el número exacto: -->
-FACTORIAL_5=
+FACTORIAL_5=120
 
 ---
 
@@ -1016,14 +1048,14 @@ FACTORIAL_5=
 como `CUADRADO(x)` y una **función real** como `sumar(a, b)`.
 ¿En qué etapa "desaparece" cada una? ¿Cuál tiene verificación de tipos?
 
-> **R:**
+> **R: Entiendo que la macro en si es como el reemplazo de texto en un lugar en especifico, mientras que la funcion real es como una orden en donde se busca una parte de codigo que tiene una direccion. La macro desaparece en el preprocesamiento, mientras que la funcion en el enlazada y es que la tiene la verificacion de tipo, la macro sigue de largo**
 
 ---
 
 **P17.** ¿Qué diferencia hay entre un símbolo de tipo `T` y uno de tipo `D`
 en la salida de `nm`? ¿En qué sección del archivo objeto vive cada uno?
 
-> **R:**
+> **R: Un simbolo de tipo T hace referencia a instrucciones que el procesador ejecuta, mientras que uno de tipo D representan informacion de variables que declaro fuera de funciones y le asigno un valor**
 
 ---
 

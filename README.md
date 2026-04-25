@@ -53,6 +53,7 @@ nm programa   > salidas/nm_ejecutable.txt        # guarda la tabla de símbolos 
 ./programa_debug > salidas/salida_debug.txt      # guarda la salida del programa con DEBUG
 ```
 
+
 #### Paso 3: Completar las respuestas en `proceso_compilacion.md`
 
 Abrí el archivo con cualquier editor y respondé cada pregunta en el lugar indicado, con la salida real de los comandos que ejecutaste.
